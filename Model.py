@@ -29,7 +29,6 @@ def HopfPhaseModel(phi,t,p):
     R_dis = np.abs(np.multiply(1/k,C_dis))
     Theta_dis = np.angle(np.multiply(1/k,C_dis))
     for n in range(0,N):
-        #
         dOsc[n] = w-R_dis[n]*np.sin(phi[n,time_step]-Theta_dis[n]-alpha)
     return dOsc
 
