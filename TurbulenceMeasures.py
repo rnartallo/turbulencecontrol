@@ -49,3 +49,15 @@ def CalculateLocalKOnoFFT(phi,G,delta_x):
         R_dis[:,t] = np.abs(np.multiply(1/k,C_dis))
         Theta_dis[:,t] = np.angle(np.multiply(1/k,C_dis))
     return [R_dis,Theta_dis]
+
+def CalculateGlobalKuramotoOrderParam(phi):
+    N,T = np.shape(phi)
+    R = np.zeros(T)
+    Theta = np.zeros(T)
+    Z = np.zeros(T,dtype=complex)
+    for t in range(0,T):
+        for n in range(0,N):
+            Z[t]+=(1/N)*cmath.exp(phi[n,t]*1j)
+        R[t]=np.abs(Z[t])
+        Theta[t]=np.angle(Z[t])
+    return [R,Theta]
