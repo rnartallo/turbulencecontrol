@@ -6,6 +6,7 @@ def CalculateLocalKuramotoOrderParam(phi,G,delta_x):
     N,T = np.shape(phi)
     G_dis = np.zeros(2*N-1)
     k = np.zeros(N)
+    ones = np.zeros(2*N-1)
     E_dis = np.zeros(2*N-1,dtype=complex)
     C_dis = np.zeros(N,dtype=complex)
     R_dis = np.zeros((N,T))
@@ -13,8 +14,7 @@ def CalculateLocalKuramotoOrderParam(phi,G,delta_x):
     G_temp=np.zeros(N)
     for n in range(0,N):
         G_temp[n] = G(n*delta_x)
-        for j in range(0,N):
-            k[n]+= G((n-j)*delta_x)
+        ones[n]=1
     G_temp_flipped = np.flip(G_temp)
     G_temp_flipped = G_temp_flipped[:len(G_temp_flipped)-1]
     G_dis =np.concatenate((G_temp_flipped,G_temp))
@@ -22,6 +22,8 @@ def CalculateLocalKuramotoOrderParam(phi,G,delta_x):
         for n in range(0,N):
             E_dis[n]=cmath.exp(phi[n,t]*1j)
         temp=ifft(np.multiply(fft(E_dis),fft(G_dis)))
+        temp_k = np.abs(ifft(np.multiply(fft(ones),fft(G_dis))))
+        k = temp_k[int(len(temp_k)/2):]
         C_dis = temp[int(len(temp)/2):]
         R_dis[:,t] = np.abs(np.multiply(1/k,C_dis))
         Theta_dis[:,t] = np.angle(np.multiply(1/k,C_dis))
