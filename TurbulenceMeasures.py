@@ -61,3 +61,6 @@ def CalculateGlobalKuramotoOrderParam(phi):
         R[t]=np.abs(Z[t])
         Theta[t]=np.angle(Z[t])
     return [R,Theta]
+
+def CalculateVarianceLKOP(R):
+    return np.var(R)
