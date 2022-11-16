@@ -8,7 +8,7 @@ mu = np.linspace(0,1,control_N)
 Turbulence_measurements_under_control =np.zeros(control_N)
 #Simulation parameters
 #Model parameters
-N=10; T=100; delta_x=0.1; beta=2.6; sigma=0.1; K=0.05
+N=1000; T=1000; delta_x=0.1; beta=2.6; sigma=0.1; K=0.05
 #Latent parameters
 alpha = np.angle(complex(1,beta)); w=beta+1; D= (sigma/K)*np.sqrt(1+beta**2)
 f = open('output1.txt','w')
@@ -18,7 +18,7 @@ def G(x):
 #Integration parameters
 #phi_0 = np.random.uniform(low=0,high=2*np.pi,size=N)
 phi_0=np.zeros(N)
-num_points = 1000; t_0=0
+num_points = 10000; t_0=0
 for c in range(0,control_N):
     print(c+1)
     sol_c,t_c = model_c.SolvePhaseHopfModelControlled(phi_0,T,N,w,G,num_points,t_0,delta_x,alpha,D,mu[c])

@@ -15,15 +15,17 @@ def G(x):
     return 0.5*np.exp(-np.abs(x))
 #Integration parameters
 #phi_0 = np.random.uniform(low=0,high=2*np.pi,size=N)
-phi_0=np.zeros(N)
+W_0=np.zeros(N)+10**(-7)
 num_points = 10000; t_0=0
 
 for c in range(0,control_N):
     print(c+1)
-    sol_c,t_c = HopfC.SolveComplexHopfModelWithControl(phi_0,T,N,w,G,num_points,t_0,delta_x,alpha,D,mu[c])
-    bounded_sol_c=np.mod(sol_c,2*np.pi)
-    LKO_R_Hc,LKO_theta_Hc = TB.CalculateLocalKuramotoOrderParam(bounded_sol_c,G,delta_x)
+    sol,t = HopfC.SolveComplexHopfModelWithControl(W_0,T,N,w,G,num_points,t_0,delta_x,alpha,sigma,K,beta,mu[c])
+    phi = np.angle(sol) - beta*np.log(np.abs(sol))
+    bounded_phi = np.mod(phi,2*np.pi)
+    LKO_R_Hc,LKO_theta_Hc = TB.CalculateLocalKuramotoOrderParam(bounded_phi,G,delta_x)
     Turbulence_measurements_under_control[c] = TB.CalculateVarianceLKOP(LKO_R_Hc)
+    print(Turbulence_measurements_under_control[c])
 with open("musweepHopfComplex.txt", "w") as txt_file:
     for line in list(Turbulence_measurements_under_control):
         txt_file.write("".join(str(line)) + "\n")
