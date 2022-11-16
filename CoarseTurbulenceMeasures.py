@@ -14,8 +14,15 @@ def CalculateEdgeCenteredMatrix(phi):
             E[n,t]=np.sqrt((np.cos(phi[i,t])-np.cos(phi[j,t]))**2 + (np.sin(phi[i,t])-np.sin(phi[j,t]))**2)
     return [E,pairs]
 
-def CalculateVariance(E):
-    return np.var(E)
+def CalculateVariance(R):
+    N,T = np.shape(R)
+    R_squaredsum = 0
+    R_sum=0
+    for n in range(0,N):
+        for t in range(0,T):
+            R_squaredsum+=R[n,t]**2
+            R_sum+=R[n,t]
+    return (1/(N*T))*R_squaredsum-((1/(N*T))*R_sum)**2
 
 def Demean(E):
     M,T = np.shape(E)

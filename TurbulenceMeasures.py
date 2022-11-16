@@ -63,4 +63,29 @@ def CalculateGlobalKuramotoOrderParam(phi):
     return [R,Theta]
 
 def CalculateVarianceLKOP(R):
-    return np.var(R)
+    N,T = np.shape(R)
+    R_squaredsum = 0
+    R_sum=0
+    for n in range(0,N):
+        for t in range(0,T):
+            R_squaredsum+=R[n,t]**2
+            R_sum+=R[n,t]
+    return (1/(N*T))*R_squaredsum-((1/(N*T))*R_sum)**2
+
+def CalculateLKOPNetwork(phi,A):
+    N,T = np.shape(phi)
+    Z = np.zeros(N,dtype = complex)
+    R = np.zeros(np.shape(phi))
+    Theta = np.zeros(np.shape(phi))
+    K = np.zeros(N)
+    for n in range(0,N):
+        for j in range(0,N):
+            K[n]+=A[n,j]
+    for t in range(0,T):
+        Z = np.zeros(N,dtype = complex)
+        for n in range(0,N):
+            for j in range(0,N):
+                Z[n] += A[n,j]*cmath.exp(phi[j,t]*1j)
+        R[:,t] = np.abs(np.multiply(1/K,Z))
+        Theta[:,t] = np.angle(np.multiply(1/K,Z))
+    return [R,Theta]
