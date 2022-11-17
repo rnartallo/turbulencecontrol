@@ -3,8 +3,8 @@ import Modelwithcontrol as model_c
 import TurbulenceMeasures as TB
 
 #Control param
-control_N = 100
-mu = np.linspace(0,1,control_N)
+control_N = 30
+mu = np.linspace(0.7,1,control_N)
 Turbulence_measurements_under_control =np.zeros(control_N)
 #Simulation parameters
 #Model parameters
@@ -20,7 +20,7 @@ def G(x):
 phi_0=np.zeros(N)
 num_points = 10000; t_0=0
 for c in range(0,control_N):
-    print(c+1)
+    print(c+70)
     sol_c,t_c = model_c.SolvePhaseHopfModelControlled(phi_0,T,N,w,G,num_points,t_0,delta_x,alpha,D,mu[c])
     bounded_sol_c=np.mod(sol_c,2*np.pi)
     LKO_R_c,LKO_theta_c = TB.CalculateLocalKuramotoOrderParam(bounded_sol_c,G,delta_x)

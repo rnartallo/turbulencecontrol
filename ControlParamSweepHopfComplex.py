@@ -2,8 +2,8 @@ import numpy as np
 import HopfModelwithcontrol as HopfC
 import TurbulenceMeasures as TB
 #Control param
-control_N = 100
-mu = np.linspace(0,1,control_N)
+control_N = 6
+mu = np.linspace(0.94,1,control_N)
 Turbulence_measurements_under_control =np.zeros(control_N)
 #Simulation parameters
 #Model parameters
@@ -19,7 +19,7 @@ W_0=np.zeros(N)+10**(-7)
 num_points = 10000; t_0=0
 
 for c in range(0,control_N):
-    print(c+1)
+    print(c+94)
     sol,t = HopfC.SolveComplexHopfModelWithControl(W_0,T,N,w,G,num_points,t_0,delta_x,alpha,sigma,K,beta,mu[c])
     phi = np.angle(sol) - beta*np.log(np.abs(sol))
     bounded_phi = np.mod(phi,2*np.pi)
